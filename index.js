@@ -4,6 +4,12 @@ const { DogController } = require('./controllers/dog.controller');
 const { DynamoDBController } = require('./controllers/dynamodb.controller');
 const { KittyController } = require('./controllers/kitty.controller');
 const app = express();
+
+const AWSXRay = require('aws-xray-sdk');
+AWSXRay.captureHTTPsGlobal(require('http'));
+AWSXRay.captureHTTPsGlobal(require('https'));
+app.use(AWSXRay.express.openSegment('CatDogAPI'));
+
 const port = 3000;
 
 
@@ -54,6 +60,8 @@ app.get('/history', async (req, res) => {
         res.status(500).send('Error scanning animals table' + url);
     }
 });
+
+app.use(AWSXRay.express.closeSegment());
 
 
 // Start the server
