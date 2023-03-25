@@ -1,6 +1,9 @@
 'use strict';
 
 const { default: axios } = require("axios");
+const { DynamoDBController } = require("./dynamodb.controller");
+
+const dbController = new DynamoDBController();
 
 class KittyController {
     constructor(){}
