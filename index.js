@@ -1,6 +1,7 @@
 const { default: axios } = require('axios');
 const express = require('express');
 const { DogController } = require('./controllers/dog.controller');
+const { DynamoDBController } = require('./controllers/dynamodb.controller');
 const { KittyController } = require('./controllers/kitty.controller');
 const app = express();
 const port = 3000;
@@ -39,6 +40,18 @@ app.get('/dog', async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).send('Error fetching image ' + url);
+    }
+});
+
+
+app.get('/history', async (req, res) => {
+    try {
+        const db = new DynamoDBController();
+        const history = await db.scanAllAnimals();
+        res.json(history);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error scanning animals table' + url);
     }
 });
 
