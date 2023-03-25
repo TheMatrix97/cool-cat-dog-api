@@ -3,6 +3,7 @@ const express = require('express');
 const { DogController } = require('./controllers/dog.controller');
 const { DynamoDBController } = require('./controllers/dynamodb.controller');
 const { KittyController } = require('./controllers/kitty.controller');
+const storeRequesterIP = require('./controllers/mysql.controller');
 const app = express();
 
 const AWSXRay = require('aws-xray-sdk');
@@ -10,6 +11,7 @@ AWSXRay.captureHTTPsGlobal(require('http'));
 AWSXRay.captureHTTPsGlobal(require('https'));
 app.use(AWSXRay.express.openSegment('CatDogAPI'));
 
+app.use(storeRequesterIP);
 const port = 3000;
 
 
