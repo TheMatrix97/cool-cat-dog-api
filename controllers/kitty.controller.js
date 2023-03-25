@@ -8,7 +8,9 @@ class KittyController {
     async getCoolCat(){
         try {
             const response = await axios.get('https://api.thecatapi.com/v1/images/search');
-            return response.data[0].url;
+            const url = response.data[0].url;
+            dbController.storeAnimal("cat", url);
+            return url
         }catch (error){
             console.log(error);
             throw error;
