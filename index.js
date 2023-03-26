@@ -11,7 +11,18 @@ AWSXRay.captureHTTPsGlobal(require('http'));
 AWSXRay.captureHTTPsGlobal(require('https'));
 app.use(AWSXRay.express.openSegment('CatDogAPI'));
 
+app.use((req, res, next) => { //Add some random error 500 to make it a little bit more funny
+    const prob = 0.8;
+    const allowNext = Math.random() > prob;
+    if (!allowNext){
+        next();
+    }else{
+        res.status(500).send('Unlucky error');
+    }
+});
+
 app.use(storeRequesterIP);
+
 const port = 3000;
 
 

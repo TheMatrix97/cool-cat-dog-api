@@ -1,4 +1,5 @@
-const mysql = require('mysql');
+const AWSXRay = require('aws-xray-sdk');
+const mysql = AWSXRay.captureMySQL(require('mysql'));
 
 // Create MySQL connection pool
 const pool = mysql.createPool({

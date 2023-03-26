@@ -15,6 +15,12 @@ $ cd test
 $ docker-compose up -d
 ```
 
+## Run XRay Daemon
+
+```bash
+$ ./xray/xray -o -n us-east-1
+```
+
 ## Run app
 
 ```bash
