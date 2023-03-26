@@ -3,9 +3,9 @@ const express = require('express');
 const { DogController } = require('./controllers/dog.controller');
 const { DynamoDBController } = require('./controllers/dynamodb.controller');
 const { KittyController } = require('./controllers/kitty.controller');
-const storeRequesterIP = require('./controllers/mysql.controller');
+//const storeRequesterIP = require('./controllers/mysql.controller');
 const app = express();
-app.use(storeRequesterIP);
+//app.use(storeRequesterIP);
 const port = 3000;
 
 
