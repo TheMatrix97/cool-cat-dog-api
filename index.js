@@ -7,7 +7,15 @@ const { KittyController } = require('./controllers/kitty.controller');
 const app = express();
 //app.use(storeRequesterIP);
 const port = 3000;
+// Include X-Ray Library
+const AWSXRay = require('aws-xray-sdk');
 
+// Capture Global HTTP/s
+AWSXRay.captureHTTPsGlobal(require('http'));
+AWSXRay.captureHTTPsGlobal(require('https'));
+
+// Set opensegment middleware
+app.use(AWSXRay.express.openSegment('CatDogAPI'));
 
 // Define your routes here
 app.get('/', (req, res) => {
@@ -18,6 +26,8 @@ app.get('/cat', async (req, res) => {
     const url = await new KittyController().getCoolCat();
     try {
         const imageResponse = await axios.get(url, { responseType: 'arraybuffer' });
+        //Inject random error
+        //res.status(500).send('random error');
         res.writeHead(200, {
             'Content-Type': 'image/jpeg',
             'Content-Length': imageResponse.data.length
@@ -57,6 +67,8 @@ app.get('/history', async (req, res) => {
     }
 });
 
+// Close Segment X-Ray
+app.use(AWSXRay.express.closeSegment());
 
 // Start the server
 app.listen(port, () => {

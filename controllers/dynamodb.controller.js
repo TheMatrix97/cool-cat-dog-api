@@ -3,7 +3,8 @@ const { v4: uuidv4 } = require('uuid');
 const { DynamoDBClient, PutItemCommand, ScanCommand } = require("@aws-sdk/client-dynamodb");
 const { unmarshall } = require("@aws-sdk/util-dynamodb");
 
-const docClient = new DynamoDBClient({ region: "us-east-1" });
+const AWSXRay = require('aws-xray-sdk');
+const docClient = AWSXRay.captureAWSv3Client(new DynamoDBClient({ region: "us-east-1" }));
 
 class DynamoDBController {
     constructor(){
